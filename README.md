@@ -21,27 +21,27 @@ El servidor disposa de dues interfícies de xarxa:
 Client Zorin
 - Adaptador 1: Xarxa interna
 
-### Captura 1
 *Configuració de les interfícies de xarxa de el servidor i la maquina client.*
 
 ![Captura 1](captures/captura1 Client Zorin Linux
 
-![Captura 1](captures/captura1 Client Zorin Linux
+![Captura 2](captures/captura1 Client Zorin Linux
 
-![Captura 1](captures/captura1 Client Zorin Linux
+![Captura 3](captures/captura1 Client Zorin Linux
 
 El client es configura inicialment amb una interfície en mode NAT a la primera interficie i a la segona Xarxa Interna.
 
 La maquina client de zorin posarem el primer adaptador en xarxa interna.
 
-### Captura 2
-*Configuració de xarxa de la màquina Zorin Linux.*
+Ara Aqui Configurarem la ip de la segona interficie de el servidor amb aquesta comanda.
 
 ```bash
 sudo nano /etc/netplan/50-cloud-init.yaml
 ```
- 
-![Captes/captura2.png
+
+*Configuració de xarxa de el servidor.*
+
+![Captura 4](captures/captura1 Client Zorin Linux
 
 La interfície de xarxa interna s’ha configurat amb:
 
@@ -57,8 +57,7 @@ La interfície de xarxa interna s’ha configurat amb:
 Primer actualitzem el sistema:
 
 ```bash
-sudo apt update
-sudo apt upgrade -y
+sudo apt update && sudo apt upgrade -y
 ```
 
 Instal·lem Kea:
@@ -67,16 +66,17 @@ Instal·lem Kea:
 sudo apt install kea -y
 ```
 
+Ara simplement ens sortira aquesta pantalla i li donem a enter a la opcio per defecte do_nothing.
+
+![Captura 5](captures/captura1 Client Zorin Linux
+
 Un cop finalitzada la instal·lació, comprovem que el paquet s'ha instal·lat correctament.
 
 ```bash
-systemctl status kea-dhcp4-server
+systemctl status kea-dhcp4-server.service
 ```
 
-### Captura 3
-*Instal·lació correcta del paquet Kea DHCP.*
-
-captures/captura3.png
+![Captura 6](captures/captura1 Client Zorin Linux
 
 ---
 
@@ -90,60 +90,15 @@ sudo nano /etc/kea/kea-dhcp4.conf
 
 Seguint les indicacions de la pràctica, es desactiva DHCPv6 i DDNS i es configura el servei DHCPv4.
 
-Configuració utilitzada:
 
-```json
-{
-  "Dhcp4": {
 
-    "interfaces-config": {
-      "interfaces": [ "enp0s8" ]
-    },
-
-    "lease-database": {
-      "type": "memfile"
-    },
-
-    "renew-timer": 900,
-    "rebind-timer": 1800,
-    "valid-lifetime": 3600,
-
-    "subnet4": [
-      {
-        "subnet": "192.169.X.0/24",
-
-        "pools": [
-          {
-            "pool": "192.169.X.10 - 192.169.X.50"
-          }
-        ],
-
-        "option-data": [
-          {
-            "name": "routers",
-            "data": "192.169.X.254"
-          },
-          {
-            "name": "domain-name-servers",
-            "data": "8.8.8.8"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-On:
-
-- El rang DHCP va de `192.169.X.10` a `192.169.X.50`
-- La porta d’enllaç és `192.169.X.254`
+- El rang DHCP va de `192.169.04.10` a `192.169.04.50`
+- La porta d’enllaç és `192.169.04.254`
 - El servidor DNS és `8.8.8.8`
 
-### Captura 4
 *Configuració de l'arxiu `/etc/kea/kea-dhcp4.conf`.*
 
-![ptures/captura4.png
+![Captura 7](captures/captura1 Client Zorin Linux
 
 ---
 
@@ -152,7 +107,7 @@ On:
 Després de modificar la configuració reiniciem el servei:
 
 ```bash
-sudo systemctl restart kea-dhcp4-server
+sudo systemctl restart kea-dhcp4-server.service
 ```
 
 Comprovem el seu funcionament:
@@ -166,11 +121,9 @@ També podem consultar els registres:
 ```bash
 journalctl -u kea-dhcp4-server
 ```
+Servei Kea executant-se correctament.*
 
-### Captura 5
-*Servei Kea executant-se correctament.*
-
-captures/captura5.png
+![Captura 8](captures/captura1 Client Zorin Linux
 
 ---
 
@@ -183,16 +136,21 @@ sudo apt update
 sudo apt install wireshark
 ```
 
+Per fer l'instalacio s'ha canviat tamporalment de xarxa interna a NAT per tenir acces a internet despres de la instalacio el tornem a posar en xarxa interna.
+
 Per executar-lo:
 
 ```bash
 sudo wireshark
 ```
 
-### Captura 6
-*Instal·lació i execució de Wireshark.*
+Per instal·lar et sortitra una pantalla i hem de seleccionar que si. 
 
-![Captes/captura6.png
+Instal·lació i execució de Wireshark.
+
+![Captura 9](captures/captura1 Client Zorin Linux
+
+![Captura 10](captures/captura1 Client Zorin Linux
 
 ---
 
@@ -209,15 +167,16 @@ ip a
 L'adreça assignada ha d'estar dins del rang:
 
 ```text
-192.169.X.10 - 192.169.X.50
+192.169.4.10 - 192.169.4.50
 ```
 
-### Captura 7
-*Adreça IP obtinguda automàticament del servidor DHCP.*
+Adreça IP obtinguda automàticament del servidor DHCP.
 
-![Captes/captura7.png
+![Captura 11](captures/captura1 Client Zorin Linux
 
 ---
+
+
 
 # 7. Comprovació de la ruta per defecte
 
@@ -227,49 +186,33 @@ Executem:
 ip route
 ```
 
-La sortida ha de mostrar:
-
-```text
-default via 192.169.X.254
-```
-
 Això indica que la porta d’enllaç s’ha rebut correctament.
 
-### Captura 8
-*Comprovació de la porta d’enllaç rebuda via DHCP.*
+Comprovació de la porta d’enllaç rebuda via DHCP.
 
-![Captura 8](captures/captura8.png)
-
-ficació del servidor DNS
+![Captura 12](captures/captura1 Client Zorin Linux
 
 Comprovem que el client ha rebut correctament el DNS configurat.
 
 ```bash
-cat /etc/resolv.conf
-```
+resolvectl status
+`````
 
 Ha d'aparèixer:
 
 ```text
-nameserver 8.8.8.8
+Current DNS Server 8.8.8.8
 ```
 
-### Captura 9
-*Comprovació del servidor DNS assignat pel DHCP.*
+Comprovació del servidor DNS assignat pel DHCP.
 
-![Captes/captura9.png
+![Captura 13(captures/captura1 Client Zorin Linux
 
 ---
 
 # 9. Captura del procés DHCP amb Wireshark
 
 A Wireshark iniciem una captura i filtrem els paquets DHCP.
-
-Filtre utilitzat:
-
-```text
-dhcp
-```
 
 Es poden observar les quatre fases principals del protocol DHCP:
 
@@ -280,36 +223,4 @@ Es poden observar les quatre fases principals del protocol DHCP:
 
 Aquest intercanvi confirma que el servidor DHCP està funcionant correctament.
 
-### Captura 10
-*Procés complet DHCP Discover → Offer → Request → ACK capturat amb Wireshark.*
-
-![Captes/captura10.png
-
----
-
-# Conclusions
-
-En aquesta pràctica s’ha instal·lat i configurat correctament un servidor DHCP mitjançant Kea sobre Ubuntu Server.
-
-El servidor ha assignat automàticament una adreça IP al client Zorin Linux dins del rang configurat, així com la porta d’enllaç i el servidor DNS especificats.
-
-Mitjançant les comprovacions realitzades amb les ordres de xarxa i la captura dels paquets DHCP amb Wireshark s’ha verificat que el servei funciona correctament.
-
-Aquesta pràctica ha servit per comprendre el funcionament del protocol DHCP i la configuració bàsica d’un servidor Kea en un entorn Linux.
-
----
-
-# Repositori GitHub
-
-Enllaç al repositori:
-
-```text
-https://github.com/EL-TEU-USUARI/nom-del-repositori
-```
-
-Exemple:
-
-```text
-https://github.com/quico-smx/practica-kea-dhcp
-```
-``
+![Captura 14(captures/captura1 Client Zorin Linux
