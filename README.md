@@ -1,15 +1,9 @@
 # Pràctica: Configuració d’un servidor DHCP amb Kea sobre Ubuntu Server
 
 ## Alumne
-**Nom:** Quico  
-**Curs:** SMX  
-**Mòdul:** Xarxes
-
----
-
-# Objectiu
-
-L’objectiu d’aquesta pràctica és configurar un servidor DHCP amb Kea sobre Ubuntu Server per tal que assigni automàticament adreces IP a un client Zorin Linux. També es comprovarà el seu funcionament mitjançant diverses eines de diagnosi i captures de xarxa amb Wireshark.
+**Nom:** Quico Carbonell verdura 
+**Curs:** SMX 2A
+**Mòdul:** Serveis En Xarxa
 
 ---
 
@@ -24,26 +18,37 @@ El servidor disposa de dues interfícies de xarxa:
 - Adaptador 1: NAT (accés a Internet)
 - Adaptador 2: Xarxa interna
 
-La interfície de xarxa interna s’ha configurat amb:
-
-- IP: `192.169.X.1`
-- Màscara: `255.255.255.0`
-- Sense porta d’enllaç
-- Sense DNS
+Client Zorin
+- Adaptador 1: Xarxa interna
 
 ### Captura 1
-*Configuració de les interfícies de xarxa de l’Ubuntu Server.*
+*Configuració de les interfícies de xarxa de el servidor i la maquina client.*
 
 ![Captura 1](captures/captura1 Client Zorin Linux
 
-El client es configura inicialment amb una interfície en mode Xarxa Interna.
+![Captura 1](captures/captura1 Client Zorin Linux
 
-No es configura cap IP manualment perquè serà assignada pel servidor DHCP.
+![Captura 1](captures/captura1 Client Zorin Linux
+
+El client es configura inicialment amb una interfície en mode NAT a la primera interficie i a la segona Xarxa Interna.
+
+La maquina client de zorin posarem el primer adaptador en xarxa interna.
 
 ### Captura 2
 *Configuració de xarxa de la màquina Zorin Linux.*
 
+```bash
+sudo nano /etc/netplan/50-cloud-init.yaml
+```
+ 
 ![Captes/captura2.png
+
+La interfície de xarxa interna s’ha configurat amb:
+
+- IP: `192.169.04.1`
+- Màscara: `255.255.255.0`
+- Sense porta d’enllaç
+- Sense DNS
 
 ---
 
