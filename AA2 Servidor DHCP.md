@@ -23,11 +23,11 @@ Client Zorin
 
 *Configuració de les interfícies de xarxa de el servidor i la maquina client.*
 
-![Captura 1](captures/captura1 Client Zorin Linux
+![Captura 1](/media/1.png)
 
-![Captura 2](captures/captura1 Client Zorin Linux
+![Captura 2](/media/2.png)
 
-![Captura 3](captures/captura1 Client Zorin Linux
+![Captura 3](/media/3.png)
 
 El client es configura inicialment amb una interfície en mode NAT a la primera interficie i a la segona Xarxa Interna.
 
@@ -41,7 +41,7 @@ sudo nano /etc/netplan/50-cloud-init.yaml
 
 *Configuració de xarxa de el servidor.*
 
-![Captura 4](captures/captura1 Client Zorin Linux
+![Captura 4](/media/4.png)
 
 La interfície de xarxa interna s’ha configurat amb:
 
@@ -68,7 +68,7 @@ sudo apt install kea -y
 
 Ara simplement ens sortira aquesta pantalla i li donem a enter a la opcio per defecte do_nothing.
 
-![Captura 5](captures/captura1 Client Zorin Linux
+![Captura 5](/media/5.png)
 
 Un cop finalitzada la instal·lació, comprovem que el paquet s'ha instal·lat correctament.
 
@@ -76,7 +76,7 @@ Un cop finalitzada la instal·lació, comprovem que el paquet s'ha instal·lat c
 systemctl status kea-dhcp4-server.service
 ```
 
-![Captura 6](captures/captura1 Client Zorin Linux
+![Captura 6](/media/6.png)
 
 ---
 
@@ -98,7 +98,7 @@ Seguint les indicacions de la pràctica, es desactiva DHCPv6 i DDNS i es configu
 
 *Configuració de l'arxiu `/etc/kea/kea-dhcp4.conf`.*
 
-![Captura 7](captures/captura1 Client Zorin Linux
+![Captura 7](/media/7.png)
 
 ---
 
@@ -123,7 +123,7 @@ journalctl -u kea-dhcp4-server
 ```
 Servei Kea executant-se correctament.*
 
-![Captura 8](captures/captura1 Client Zorin Linux
+![Captura 8](/media/8.png)
 
 ---
 
@@ -148,9 +148,9 @@ Per instal·lar et sortitra una pantalla i hem de seleccionar que si.
 
 Instal·lació i execució de Wireshark.
 
-![Captura 9](captures/captura1 Client Zorin Linux
+![Captura 9](/media/9.png)
 
-![Captura 10](captures/captura1 Client Zorin Linux
+![Captura 10](/media/10.png)
 
 ---
 
@@ -172,7 +172,7 @@ L'adreça assignada ha d'estar dins del rang:
 
 Adreça IP obtinguda automàticament del servidor DHCP.
 
-![Captura 11](captures/captura1 Client Zorin Linux
+![Captura 11](/media/11.png)
 
 ---
 
@@ -190,7 +190,7 @@ Això indica que la porta d’enllaç s’ha rebut correctament.
 
 Comprovació de la porta d’enllaç rebuda via DHCP.
 
-![Captura 12](captures/captura1 Client Zorin Linux
+![Captura 12](/media/12.png)
 
 Comprovem que el client ha rebut correctament el DNS configurat.
 
@@ -206,23 +206,6 @@ Current DNS Server 8.8.8.8
 
 Comprovació del servidor DNS assignat pel DHCP.
 
-![Captura 13(captures/captura1 Client Zorin Linux
+![Captura 13](/media/13.png)
 
 ---
-
-# 9. Captura del procés DHCP amb Wireshark
-
-A Wireshark iniciem una captura i filtrem els paquets DHCP.
-
-Es poden observar les quatre fases principals del protocol DHCP:
-
-1. DHCP Discover
-2. DHCP Offer
-3. DHCP Request
-4. DHCP ACK
-
-Aquest intercanvi confirma que el servidor DHCP està funcionant correctament.
-
-![Captura 14(captures/captura1 Client Zorin Linux
- 
- 
