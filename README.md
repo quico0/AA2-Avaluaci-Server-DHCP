@@ -224,3 +224,5 @@ Es poden observar les quatre fases principals del protocol DHCP:
 Aquest intercanvi confirma que el servidor DHCP està funcionant correctament.
 
 ![Captura 14(captures/captura1 Client Zorin Linux
+ 
+ 
